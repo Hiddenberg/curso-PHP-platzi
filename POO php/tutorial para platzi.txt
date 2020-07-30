@@ -1,0 +1,383 @@
+Los llamados **métodos mágicos** en PHP no son mas que un conjunto de funciones especificas (piezas de código) que se ejecutan al realizar ciertas acciones con un objeto, por ejemplo al momento de crear un nuevo objeto, modificarlo, destruirlo, etc.
+
+Estos suelen escribirse dentro de una clase como un cualquier otro método, pero se caracterizan por comenzar siempre con un doble guion bajo
+
+Por ejemplo:
+```
+class ObjetoDeEjemplo {
+
+   public function __construct($parametro){
+      /* codigo a ejecutar cuando se cree un nuevo objeto */
+   }
+
+```
+
+Los **métodos mágicos** que tenemos en PHP son:
+
+- __construct() y __destruct():
+Se utilizan para ejecutar código o insertarlo (se pueden insertar métodos o atributos) cuando un nuevo objeto es creado y también ejecutar código cuando es destruido (aunque esto es muy poco utilizado en la practica)
+
+Ejemplo:
+
+```
+class Persona {
+
+  public function __construct($nombreCompleto, $años){
+
+    /* declaramos 2 variables (atributos) al momento de crear un nuevo objeto del tipo persona */
+    $this->nombre = $nombreCompleto;
+    $this->edad = $años;
+
+    /* esta funcion se ejecuta al crear una nueva persona, automáticamente comprueba si es mayor y guarda el resultado en una variable
+    para poder usarla despues si es necesario*/
+    if ($años >= 18){
+      $this->esMayorDeEdad = true;
+    } else {
+      $this->esMayorDeEdad = false;
+    }
+
+  }
+}
+
+/* ahora al momento de crear el objeto "Persona" debemos darle el nombre y la edad como parametros */
+$victor = new Persona('Victor Pazaran',24);
+
+/* si queremos saber el nombre completo o si es mayor de edad lo podemos hacer de esta forma */
+
+if ($victor->esMayorDeEdad){
+  echo "$victor->nombre tiene $victor->edad años, por lo que es mayor de edad";
+} else {
+  echo "$victor->nombre tiene $victor->edad años, por lo que es menor de edad";
+}
+```
+
+
+- __get() y __set():
+Estos métodos se utilizan especialmente cuando necesitamos acceder o cambiar los atributos (variables) ya sea privadas o protegidas de un objeto, ya que normalmente se recomienda que así se usen para proteger los datos no quienes tengan derecho a acceder a ellos
+
+Como su nombre en inglés lo indica, el metodo __get() sirve para **obtener ** los atributos de un objeto, mientras que el método __set() sirve para establecerlos o cambiarlos, esto se usa principalmente cuando los objetos 
+
+No es necesario que este método se ejecute de forma externa, ya que se ejecuta de forma automática al acceder a los atributos de un objeto si estos atributos son **privados/protegidos**, o si estos no existen
+
+_NOTA: cabe recordar que un **atributo **o **propiedad**, en Programación Orientada a Objetos es solo una variable que fue declarada (creada) dentro de un objeto, por lo que cuando nos referimos a propiedades, atributos o variables de un objeto estamos hablando de la misma cosa_
+
+Ejemplo:
+
+```
+class Automovil {
+
+  private $marca; /* LAS PROPIEDADES ESTAN ESTABLECIDAS COMO PRIVADAS ESTA VEZ */
+  private $color;
+
+  public function __get($atributo){
+
+    /* confirmaremos si un atributo existe al momento de querer acceder al mismo */
+    if(property_exists($this, $atributo)) {
+      return $this->$atributo; /* si existe regresara el valor que tenga guardado en dicho atributo/propiedad */
+    } else {
+      echo "El atributo <strong>$atributo</strong> no existe dentro de este objeto "; /* y si no existe solo regresara un mensaje indicandolo */
+    }
+  }
+
+  /* para la funcion __set() es necesario darle 2 parametros, el atributo que queremos modificar o crear,
+  y el valor que va a recibir dicho atributo */
+  public function __set($atributo,$valor){
+    $this->$atributo = $valor;
+  }
+
+}
+
+/* Veamos como y cuando se ejecutan dichas funciones */
+
+$auto1 = new Automovil(); //creamos el objeto de tipo "Automovil" vacio (sin propiedades aun)
+
+/* El metodo __set() se ejecutara automaticamente al momento que nosotros asignemos una
+propiedad a este objeto, ya sea para crearla o modificarla, como en este caso*/
+
+$auto1->marca = 'ferrari';
+$auto1->color = 'rojo'; //solo modificamos la propiedad "color" y "marca" que ya existian (aunque estas sean privadas)
+
+$auto1->modelo = '1990'; //aqui creamos una nueva propiedad que no existia anteriormente en el objeto
+
+
+/* El metodo __get() se ejecutara al momento que queramos acceder al valor de una de las propiedades
+de los objetos */
+
+echo "Su auto registrado es un $auto1->marca de color $auto1->color";
+
+echo "el dueño es: $auto1->dueño"; 
+//como no regitramos la propiedad dueño anteriormente lo que obtendremos aqui sera un mensaje indicando
+//que esta propiedad "dueño" no existe (ya que esto lo programamos en el __get())
+```
+
+
+- __isset() y __unset():
+Con estos métodos podemos programar que es lo que sucederá al momento que ejecute un "isset()" o "unset()" en una de las propiedades del objeto
+
+La función **isset()** se utiliza para saber si un determinado componente existe o fue declarado anteriormente en nuestro código, mientras que la función **unset()** se utiliza para quitar propiedades, ambas funcionan si las propiedades son privadas o no existen
+
+NOTA: normalmente la función **isset()** solo devolvera un valor de "true" o "false" dependiendo de si la variable o el atributo existe o contiene algún valor o no
+
+Ejemplo:
+
+```
+class DiscoDuro {
+  private $marca = 'kingston';
+  private $contraseña = 'fgmrde<z';
+  private $capacidadMaxima;
+
+  /* supongamos que por alguna razón si nos preguntan por el atributo "contraseña" en especifico
+  con un isset(), queremos que el programa les devuelva siempre un valor "false" y cambie la contraseña a la palabra "confidencial" aun si existe o no, pero si es
+  cualquier otro atributo les devolvera true o false solamente dependiendo si existen o no */
+  public function __isset($atributo){
+    if ($atributo == 'contraseña'){
+      echo 'confidencial ';
+      return false;
+    } else {
+      return isset($this->$atributo);
+    }
+  }
+
+  /* supongamos que por ningun motivo queremos que se elimine el atributo "contraseña", asi que comprobaremos si nos piden esto con unset(),
+  y de ser asi, mandaremos un mensaje diciendo que no esta permitido e impediremos que sea borrada dicha propiedad */
+  public function __unset($atributo){
+    if ($atributo == 'contraseña'){
+      echo 'NO SE PUEDE ELIMINAR ESTE ATRIBUTO ';
+      return;
+    } else {
+      unset($this->$atributo);
+    }
+  }
+}
+
+$HDD1 = new DiscoDuro(); //creamos un nuevo objeto del tipo DiscoDuro
+
+
+
+var_dump(isset($HDD1->marca)); //Devuelve "bool(true)" ya que declaramos/configuramos la marca al crear la clase del objeto
+var_dump(isset($HDD1->capacidadMaxima)); //Devuelve "bool(false)" ya que aunque la variable fue declarada al crear la clase no tiene ningun valor asignado
+var_dump(isset($HDD1->RPM)); //Devuelve "bool(false)" ya que esta propiedad no fue declarada en ninguna parte del codigo
+
+var_dump(isset($HDD1->contraseña)); //Esto nos devolvera siempre "false" aunque esta propiedad SI tiene un valor asignado
+/* esta comprobacion ↑ aparte nos imprimira la palabra confidencial, ya que asi lo programamos en el __isset() */
+
+
+/* Finalmente con unset() se ejecutara lo que esté dentro del metodo magico del mismo nombre __unset()*/
+
+unset($HDD1->marca); //Elmimnamos la propiedad "marca"
+var_dump(isset($HDD1->marca)); //Por lo que ahora si comrpobamos nuevamente si existe esta propiedad nos devolvera bool(false)
+
+
+/* pero si tratamos de hacer lo mismo con la propiedad "contraseña",
+nos mostrara un error diciendo 'NO SE PUEDE ELIMINAR ESTE ATRIBUTO ' como lo programamos anteriormente*/
+
+unset($HDD1->contraseña); //Esto nos imprimira el mensaje que configuramos anteriormente, pero no eliminara la propiedad,
+// ya que no le especificamos que hiciera esto si la propiedad era "contraseña"
+```
+
+
+- __toString:
+Este método mágico se utiliza cuando queremos que un objeto pueda ser devuelto en forma de un string (cadena de texto) sin necesidad de tener que convertir sus propiedades manualmente
+
+Ejemplo:
+
+```
+/* Supongamos que necesitamos crear una clase "Email", la cual va a contener el destinatario, titulo y el contenido del correo, 
+y queremos que tenga formato automaticamente cuando accedamos al objeto "Email" como un string/cadena de texto ya sea mediante la funcion echo, print, etc.*/
+
+class Email {
+  private $destinatario = 'fulanito@coreo.com';
+  private $titulo = "Apoyo para compras en linea";
+  private $contenido = "Buenos dias estimado señor Fulanito
+                        le solicito su apoyo para poder realizar mis compras en linea ya que la plataforma
+                        no responde cuando trato de finalizar mi compra, de antemano gracias
+                        Saludos. ";
+/* aqui ↑ inventamos un correo para este ejemplo rapido, pero tomen en cuenta que esto se podria sacar de una base de datos*/
+
+
+  /* ahora con el metodo magico __toString() podemos hacer que este correo tenga un formato basico para poder mostrarlo en pantalla*/
+
+  public function __toString(){
+    $emailFormateado = "<strong>$this->titulo</strong> </br> <i style='display: block; width: 500px;'>$this->contenido</i>"; 
+    //con esto ↑ hacemos que muestre el titulo en negritas y el contenido en letra italica en un bloque de 500pixeles de ancho
+    
+    return $emailFormateado; // finalmente hacemos que cuando se consulte regrese la variable que creamos
+  }
+}
+
+$email1 = new Email();
+
+echo $email1; //directamente nos mostrara el email formateado tal como lo establecimos en el método mágico __toString()
+```
+
+El resultado final de nuestro código luce así
+![platzi1.JPG](https://static.platzi.com/media/user_upload/platzi1-12be23f2-6785-49d1-8856-609abea630a9.jpg)
+
+
+- __sleep() y __wakeup():
+Estos métodos son especialmente utilizados para un proceso llamado [serializacion](https://es.wikipedia.org/wiki/Serializaci%C3%B3n) el cual es utilizado principalmente para transferir información a través de una conexión en red, como por ejemplo al momento de enviar un objeto a una base de datos
+
+El método **__sleep()** se encarga de indicar exactamente que elementos de un objeto serán serializados cuando se ejecute la función serialize(), mientras que el metodo **__wakeUp()** se ejecutara al momento de des-serializar el objeto con la función unserialize()
+
+Ejemplo:
+
+```
+class Tabla {
+  public $nombreTabla;
+  public $entradas;
+  public $DBconexion;
+
+
+  /* de esta forma establecemos que solo estos 2 atributos seran serializados,
+  ya que para este ejemplo no nos intereza serializar la informacion sobre la conexion a la base de datos */
+  public function __sleep() {
+      return ['nombreTabla', 'entradas'];
+      //esto automaticamente detectara los atributos como $this->nombreTabla y $this->entradas
+  }
+
+  /* en este caso supongamos que la base de datos no fue serializada asi que cuando se des-serialice el objeto haremos que se
+  reconecte automaticameente a la base de datos */
+  public function __wakeup() {
+
+    $this->DBconexion = DB::connect();
+  }
+}
+```
+
+
+- __call() y __callStatic():
+Este método mágico se ejecuta al momento que queremos acceder a un método (función) que no sea público, con esto ademas de poder ejecutar dichos métodos podemos agregar código extra que queremos que se ejecutado al momento de ejecutarlos
+
+Ejemplo:
+
+```
+/* supongamos que tenemos una aplicacion para manejar restaurantes, y queremos que cuando se registre una nueva reservacion 
+la agregue al contador de ese mismo restaurante (dentro del mismo objeto) pero aparte que ejecute una conexion a la base de datos
+donde estan todos los otros restaurantes y registre todos lo que se hace como una especie de Log*/
+class Restaurante {
+  private $reservacionesTotales = 0;
+  public $meseros;
+  public $clientes;
+
+  protected function agregarReservacion () {
+    $this->reservacionesTotales ++;
+  }
+
+  public function __call($metodo, $parametros){
+
+    /* verificamos primero si el método que están tratando de ejecutar en este objeto existe con la funcion "method_exists()"
+    y si existe nos lo permitía ejecutarlo aun cuando este métodos fue definido como "protected"*/
+    if (method_exists($this,$metodo)){
+      call_user_func([$this,$metodo]);
+      registrarEjecucion("Se ejecuto el método $metodo exitosamente con los parámetros <i>" .implode(' ',$parametros)."</i>");
+      /* esta funcion ↑ lo que hace es guardar un string especificando que fue lo que se ejecuto y con que parámetros
+      para poder llevar un registro de todos los movimientos de este programa */
+    } else {
+      registrarEjecucion("Se intentó ejecutar el método $metodo con los parámetros <i>" .implode(' ',$parametros)."</i> pero no fue posible");
+    }
+  }
+}
+
+/* para este ejemplo practico solo mostraremos el Log en pantalla pero esto bien podría conectarse
+a una base de datos para tener un registro de todo lo que se intento ejecutar */
+function registrarEjecucion(string $log){
+  echo $log;
+}
+
+/* creamos el nuevo objeto de tipo Restaurante y asignamos las propiedades publicas*/
+$pizzaPlatza = new Restaurante();
+$pizzaPlatza->meseros = 8;
+$pizzaPlatza->clientes = 43;
+
+
+$pizzaPlatza->agregarReservacion(); // nos devolverá "Se ejecuto el método agregarReservacion exitosamente con los parámetros" en pantalla
+
+$pizzaPlatza->noExiste('parametro de ejemplo'); // nos devolverá "Se intentó ejecutar el método noExiste con los parámetros parámetro de ejemplo pero no fue posible" en pantalla
+```
+
+No entramos en mucho detalle sobre el método __callStatic() ya que es exactamente lo mismo, pero aplicado para funciones estáticas
+
+
+- __clone():
+Este método mágico se ejecutara al momento que creemos un clon del objeto donde se encuentre
+
+Para entenderlo un poco mejor es importante recordar que al momento que creamos una variable y le asignamos un objeto lo que estamos haciendo no es crear una copia del objeto, sino hacer referencia la mismo que ya existía
+
+Ejemplo de referencias:
+```
+/* creamos la clase niño */
+class Niño {
+
+  public $nombre;
+
+  /* a esta clase le podemos asignar el nombre directamente al momento que creemos el objeto
+  gracias al metodo __construct() */
+  public function __construct($n){
+    $this->nombre = $n;
+  }
+}
+
+/* aqui creamos el objeto niño1 asignandole directamente el nombre 'Juan',
+y despues a la variable $niño2 le asignamos el mismo objeto ($niño1)*/
+$niño1 = new Niño('Juan');
+$niño2 = $niño1;
+
+/* por lo que ahora si hacemos cualquier cambo a la variable de $niño2, en realidad los cambios
+los estaremos haciendo directamente a la primera que creamos ($niño1) */
+$niño2->nombre = 'Gabriel';
+
+/* podemos confirmar esto al mostrar cual es el nombre que contiene cada una de los niños */
+echo "$niño1->nombre"; //Nos devuelve 'Gabriel'
+echo "$niño2->nombre"; //Tambien devolvera 'Gabriel'
+```
+
+Entonces para evitar que suceda esto lo que tenemos que hacer es utilizar la instrucción **clone **al momento de asignar la siguientes variables con el mismo objeto, de esta forma se crearan objetos nuevos exactamente iguales al primero en lugar de solo hacer referencia al mismo objeto, y justo aquí es donde se ejecutaría nuestro método mágico **__clone()**
+
+Ejemplo:
+
+```
+/* para este ejemplo creamos la clase Oveja */
+class Oveja {
+
+  public $nombre;
+
+  public function __construct($n) {
+    $this->nombre = $n;
+  }
+
+  /* supongamos que queremos que se nos indique siempre que se cree un nuevo clon de este objeto
+  para esto vamos a mandar una notificacion, y vamos a agregar 'clon' al inicio del nombre de todos los clones cuando se creen */
+  public function __clone(){
+    enviarNotificacion($this->nombre);
+
+    $this->nombre = "Clon de " . $this->nombre;
+  }
+}
+
+/* para este ejemplo la funcion enviarNotificacion solo mostrara un aviso en pantalla,
+pero nuevamente esto podria ser una conexion a base de datos o tal vez un mensaje enviado por SMS */
+function enviarNotificacion($nombreDeOveja){
+  echo "<b><i>la oveja $nombreDeOveja ha sido clonada exitosamente</i></b>";
+}
+
+/* creamos una nueva oveja y procedemos a clonarla */
+$oveja1 = new Oveja('Dolly');
+$oveja2 = clone $oveja1;
+
+/* ahora esta vez si mostramos los nombres de ambas ovejas veremos que son distintos */
+echo $oveja1->nombre; //nos devuelve 'Dolly'
+echo $oveja2->nombre; //nos devuelve 'Clon de Dolly'
+```
+
+
+- __invoke():
+Este métodos mágico es particularmente útil, ya que nos permite utilizar un objeto directamente como si fuera una función y de la misma forma podemos agregar parámetros como en una función normal
+
+El principal uso de esto es cuando necesitamos asignar una función a una variable, cosa que en PHP normalmente no podemos hacer
+
+Ejemplo:
+
+```
+<code>
+```
+
