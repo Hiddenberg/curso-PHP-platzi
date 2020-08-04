@@ -6,6 +6,7 @@
 
   require 'app/models/Job.php';
   require 'app/models/Project.php';
+  require_once 'app/models/Printable.php';
 
 /* ahora tenemos con los constructores podemos declarar el titulo y la descripcion al momento de crear el nuevo Job (objeto) */
 $job1 = new Job('PHP developer','Este trabajo es genial para PHP');
@@ -34,15 +35,15 @@ $projects = [$project1];
 
 
 
-
-function printElement($job) { /* AQUI USAMOS ESTA FUNCION PARA HACER QUE SI LOS TRABAJOS NO ESTAN SETEADOS PARA SER VISIBLES SE DETENGA LA EJECUCION DE ESTA FUNCION CON EL RETURN*/
+/* con la interfaz printable nos aseguramos de que esto sea algo printable */
+function printElement(Printable $job) { /* AQUI USAMOS ESTA FUNCION PARA HACER QUE SI LOS TRABAJOS NO ESTAN SETEADOS PARA SER VISIBLES SE DETENGA LA EJECUCION DE ESTA FUNCION CON EL RETURN*/
    if ($job->visible == false) {
      return;
    }
    /* echo $idx; */
    echo '<li class="work-position">';
    echo '<h5>' . $job->getTitle() . '</h5>';
-   echo '<p>' . $job->description . '</p>';
+   echo '<p>' . $job->getDescription() . '</p>';
    echo '<p>' . $job->getDurationAsString() . '</p>';
    echo '<strong>Achievements:</strong>';
    echo '<ul>';

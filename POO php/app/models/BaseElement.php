@@ -1,5 +1,8 @@
 <?php
-class BaseElement {
+
+require_once 'app/models/Printable.php';
+
+class BaseElement implements Printable{
    protected $title; /* con la especificacion protected, este atributo solo sera accesible desde esta misma clase, o alguna clase hija */
    public $description;
    public $visible = true; /* de esta forma definimos un valor por defecto para este atributo */
@@ -25,30 +28,34 @@ class BaseElement {
       return $this->title;
    }
 
-   public function getDurationAsString() {
-      $years = floor($this->months / 12);
-      $residualMonths = $this->months % 12;
+  public function getDurationAsString() {
+    $years = floor($this->months / 12);
+    $residualMonths = $this->months % 12;
 
-      if ($this->months >= 12) {
-        if($residualMonths == 0 && $years == 1) {
-          return "$years Year";
-        } else if ($residualMonths == 0 && $years > 1){
-          return "$years Years";
-        } else if ($residualMonths == 1 && $years == 1){
-          return "$years Year and $residualMonths month";
-        } else if ($residualMonths == 1 && $years > 1){
-          return "$years Years and $residualMonths month";
-        } else if ($residualMonths > 1 && $years == 1){
-          return "$years Year and $residualMonths months";
-        } else {
-          return "$years Years and $residualMonths months";
-        }
+    if ($this->months >= 12) {
+      if($residualMonths == 0 && $years == 1) {
+        return "$years Year";
+      } else if ($residualMonths == 0 && $years > 1){
+        return "$years Years";
+      } else if ($residualMonths == 1 && $years == 1){
+        return "$years Year and $residualMonths month";
+      } else if ($residualMonths == 1 && $years > 1){
+        return "$years Years and $residualMonths month";
+      } else if ($residualMonths > 1 && $years == 1){
+        return "$years Year and $residualMonths months";
       } else {
-        if ($this->months > 1 || $this->months == 0){
-          return "$this->months months";
-        } else {
-          return "$this->months month";
-        }
+        return "$years Years and $residualMonths months";
+      }
+    } else {
+      if ($this->months > 1 || $this->months == 0){
+        return "$this->months months";
+      } else {
+        return "$this->months month";
       }
     }
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
 }
