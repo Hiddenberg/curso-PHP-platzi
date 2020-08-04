@@ -6,7 +6,12 @@
 
   require 'app/models/Job.php';
   require 'app/models/Project.php';
-  require_once 'app/models/Printable.php';
+  require_once 'app/models/Printable.php'; 
+  
+  require 'app/lib1/Project.php';
+
+  /* a partir de php 7 podemos agrupar los use */
+  use App\models\{Job, Project, Printable};
 
 /* ahora tenemos con los constructores podemos declarar el titulo y la descripcion al momento de crear el nuevo Job (objeto) */
 $job1 = new Job('PHP developer','Este trabajo es genial para PHP');
@@ -22,6 +27,11 @@ $job3->setTitle('');
 $job3->description = 'Este trabajo es genial para sin titulo';
 $job3->visible = true;
 $job3->months = 23;
+
+/* Agregamos la clase project (la que viene desde lib1) asignandola en una variable y especificando explicitamente
+que queremos esa clase */
+
+$projectLib = new lib1\Project();
 
 /* NOTA: la forma de acceder a un metodo o atributo de un objeto en php es con la sintaxis $objeto->atrubuto */
 
