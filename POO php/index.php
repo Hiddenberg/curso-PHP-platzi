@@ -66,13 +66,20 @@ include("jobs.php"); /* lo que hace es incluir otro archivo php desde el cual po
 
               /* echo $totalMonths; */
               /* echo $idx; */
-              printJobs($jobs[$idx]);
+              printElement($jobs[$idx]);
             }
           ?>
           </ul>
         </div>
         <div>
             <h3 class="border-bottom-gray">Projects</h3>
+            <ul>
+              <!-- DO WHILE -->
+              <?php
+                for ($idx=0; $idx < count($projects); $idx++) {
+                  printElement($projects[$idx]);
+                }
+              ?>
             <div class="project">
                 <h5>Project X</h5>
                 <div class="row">

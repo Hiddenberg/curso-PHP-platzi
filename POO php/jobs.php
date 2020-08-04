@@ -24,15 +24,18 @@ $job3->months = 23;
 
 /* NOTA: la forma de acceder a un metodo o atributo de un objeto en php es con la sintaxis $objeto->atrubuto */
 
+$project1 = new Project('Project 1', 'Description');
 
 /* aqui declararemos un array de objetos en lugar de uno con cada job y sus propiedades */
 
 $jobs = [$job1,$job2,$job3];
 
+$projects = [$project1];
 
 
 
-function printJobs($job) { /* AQUI USAMOS ESTA FUNCION PARA HACER QUE SI LOS TRABAJOS NO ESTAN SETEADOS PARA SER VISIBLES SE DETENGA LA EJECUCION DE ESTA FUNCION CON EL RETURN*/
+
+function printElement($job) { /* AQUI USAMOS ESTA FUNCION PARA HACER QUE SI LOS TRABAJOS NO ESTAN SETEADOS PARA SER VISIBLES SE DETENGA LA EJECUCION DE ESTA FUNCION CON EL RETURN*/
    if ($job->visible == false) {
      return;
    }

@@ -1,9 +1,9 @@
 <?php
 class BaseElement {
-   private $title;
+   protected $title; /* con la especificacion protected, este atributo solo sera accesible desde esta misma clase, o alguna clase hija */
    public $description;
    public $visible = true; /* de esta forma definimos un valor por defecto para este atributo */
-   public $months;
+   public $months = 0;
 
    /* creemos un constructor para esta clase, en PHP se crea de esta manera */
 
@@ -44,10 +44,10 @@ class BaseElement {
           return "$years Years and $residualMonths months";
         }
       } else {
-        if ($months > 1){
-          return "$months months";
+        if ($this->months > 1 || $this->months == 0){
+          return "$this->months months";
         } else {
-          return "$month month";
+          return "$this->months month";
         }
       }
     }
