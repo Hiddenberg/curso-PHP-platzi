@@ -2,19 +2,11 @@
 
 namespace App\models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class Job extends BaseElement {
+class Job extends Model {
 
-   /* De esta forma podemos crear nuestro construct modificado para esta clase en especifico (Job),
-   pero tambien usando el que fue creado en la clase padre */
-   public function __construct($title,$description) {
-      $newTitle = "Job Title: " . $title;
-      /* este elemento "parent" nos permite acceder a variables o funciones de la clase parent */
-      /* parent::__construct($newTitle,$description); */
-
-      /* ahora que el atributo title es de acceso Protected podemos cambiarlo directamente de la siguiente forma */
-      $this->title = $newTitle;
-   }
+  protected $table = "jobs";
 
 
   /* si creamos una funcion que ya esta creada anteriormente en la clase padre, esta sera sobreescrita

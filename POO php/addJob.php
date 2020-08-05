@@ -1,15 +1,18 @@
 <?php
 
+require_once 'vendor\autoload.php';
+
 use Illuminate\Database\Capsule\Manager as Capsule;
+use App\models\Job;
 
 $capsule = new Capsule;
 
 $capsule->addConnection([
     'driver'    => 'mysql',
     'host'      => 'localhost',
-    'database'  => 'database',
+    'database'  => 'cursophp',
     'username'  => 'root',
-    'password'  => 'password',
+    'password'  => '',
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix'    => '',
@@ -21,6 +24,14 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
 
+if (!empty($_POST)){
+   $job = new Job();
+   $job->title = $_POST['title'];
+   $job->description = $_POST['description'];
+   $job->save();
+
+   echo "<script>alert('registrado correctamente')</script>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +46,7 @@ $capsule->bootEloquent();
    <h1 class="addJob-title">Add Job</h1>
    <form action="addJob.php" method="post">
       <div class="input-container">
-         <label for="">Tilte</label>
+         <label for="">Title</label>
          <input type="text" name="title" id="">
       </div>
       </br>
