@@ -47,6 +47,9 @@ form {
 .input-container input {
     margin-left: 1em;
 }
+.selector {
+    justify-content: space-around;
+}
 
 .addJob-title {
     width: max-content;

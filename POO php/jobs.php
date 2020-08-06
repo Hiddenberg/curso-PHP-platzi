@@ -9,8 +9,7 @@ use App\models\{Job, Project};
 /* con esto creamos un array directamente con los registros que tengamos en la base de datos */
 $jobs = Job::all();
 
-$project1 = new Project('Project 1', 'Description');
-$projects = [$project1];
+$projects = Project::all();
 
 
 
