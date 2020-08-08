@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '0ee0a6dbb1368b53a3d67451d86d1b17e64e03f4',
+    'reference' => '9b7c9d1d22dc69003dfc1abd42cae38798aa1bde',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '0ee0a6dbb1368b53a3d67451d86d1b17e64e03f4',
+      'reference' => '9b7c9d1d22dc69003dfc1abd42cae38798aa1bde',
     ),
     'doctrine/inflector' => 
     array (
@@ -78,6 +78,24 @@ private static $installed = array (
       ),
       'reference' => '7bdde5ecd25f66e3e8b9a2ddc5dbc3154df103b6',
     ),
+    'laminas/laminas-diactoros' => 
+    array (
+      'pretty_version' => '2.3.1',
+      'version' => '2.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2ffc7cc816f6207b27923ee15edf6fac668390aa',
+    ),
+    'laminas/laminas-zendframework-bridge' => 
+    array (
+      'pretty_version' => '1.0.4',
+      'version' => '1.0.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'fcd87520e4943d968557803919523772475e8ea3',
+    ),
     'nesbot/carbon' => 
     array (
       'pretty_version' => '2.38.0',
@@ -97,6 +115,38 @@ private static $installed = array (
       'reference' => 'b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
     ),
     'psr/container-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/http-factory' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '12ac7fcd07e5b077433f5f2bee95b3a771bf61be',
+    ),
+    'psr/http-factory-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/http-message' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f6561bf28d520154e4b0ec72be95418abe6d9363',
+    ),
+    'psr/http-message-implementation' => 
     array (
       'provided' => 
       array (
@@ -233,6 +283,13 @@ private static $installed = array (
       array (
       ),
       'reference' => '25bcbf01678930251fd572891447d9e318a6e2b8',
+    ),
+    'zendframework/zend-diactoros' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '^2.2.1',
+      ),
     ),
   ),
 );

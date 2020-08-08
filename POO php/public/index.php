@@ -29,10 +29,13 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
 
-$route = $_GET['route'] ?? '/';
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
+   $_SERVER,
+   $_GET,
+   $_POST,
+   $_COOKIE,
+   $_FILES
+);
 
-if ($route == '/') {
-   require '../index.php';
-} else if ($route == 'addJob') {
-   require '../addJob.php';
-}
+
+var_dump($request->getUri()->getPath());
