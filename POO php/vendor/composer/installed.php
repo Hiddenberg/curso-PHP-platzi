@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '9b7c9d1d22dc69003dfc1abd42cae38798aa1bde',
+    'reference' => 'f078e6300af1ab29fccbf4bd2ff509f580d073f6',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '9b7c9d1d22dc69003dfc1abd42cae38798aa1bde',
+      'reference' => 'f078e6300af1ab29fccbf4bd2ff509f580d073f6',
+    ),
+    'aura/router' => 
+    array (
+      'pretty_version' => '3.1.0',
+      'version' => '3.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '52507bc813c92511dbcacc7463f163ef5149ad38',
     ),
     'doctrine/inflector' => 
     array (
@@ -139,6 +148,15 @@
       array (
         0 => '1.0',
       ),
+    ),
+    'psr/log' => 
+    array (
+      'pretty_version' => '1.1.3',
+      'version' => '1.1.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0f73288fd15629204f9d42b7055f72dacbe811fc',
     ),
     'psr/log-implementation' => 
     array (
