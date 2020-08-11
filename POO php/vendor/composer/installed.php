@@ -1,24 +1,24 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => 'No version set (parsed as 1.0.0)',
+    'version' => '1.0.0.0',
     'aliases' => 
     array (
     ),
-    'reference' => 'f078e6300af1ab29fccbf4bd2ff509f580d073f6',
+    'reference' => NULL,
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => 'No version set (parsed as 1.0.0)',
+      'version' => '1.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f078e6300af1ab29fccbf4bd2ff509f580d073f6',
+      'reference' => NULL,
     ),
     'aura/router' => 
     array (
@@ -279,6 +279,15 @@
       array (
         0 => '2.0',
       ),
+    ),
+    'twig/twig' => 
+    array (
+      'pretty_version' => 'v3.0.5',
+      'version' => '3.0.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9b76b1535483cdf4edf01bb787b0217b62bd68a5',
     ),
     'voku/portable-ascii' => 
     array (

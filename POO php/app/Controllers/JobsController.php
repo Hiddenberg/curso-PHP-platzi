@@ -3,7 +3,7 @@
 namespace App\controllers;
 use App\models\{Job,Project};
 
-class JobsController {
+class JobsController extends BaseController {
    public function getAddJobAction($request) {
       var_dump($request->getMethod());
 
@@ -27,7 +27,7 @@ class JobsController {
       
       }
 
-      include '../views/addJob.php';
+      echo $this->renderHTML('addJob.twig');
    }
 
 }
