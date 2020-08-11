@@ -3,10 +3,8 @@
 namespace App\Controllers;
 use App\models\{Job,Project};
 
-class IndexController {
+class IndexController extends BaseController{
    public function indexAction(){
-      echo 'indexAction';
-
       $jobs = Job::all();
 
       $projects = Project::all();
@@ -15,8 +13,11 @@ class IndexController {
       $limitMonths = 2004;
       $totalMonths = 0;
 
-      include '../views/index.php';
-
-
+      
+      return $this->renderHTML('index.twig', [
+         'name' => $name,
+         'jobs' => $jobs,
+         'projects' => $projects
+      ]);
       }
 }

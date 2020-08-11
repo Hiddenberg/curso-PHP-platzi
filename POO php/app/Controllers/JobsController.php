@@ -5,8 +5,6 @@ use App\models\{Job,Project};
 
 class JobsController extends BaseController {
    public function getAddJobAction($request) {
-      var_dump($request->getMethod());
-
 
       if ($request->getMethod() == 'POST'){
          $postData = $request->getParsedBody();
@@ -27,7 +25,7 @@ class JobsController extends BaseController {
       
       }
 
-      echo $this->renderHTML('addJob.twig');
+      return $this->renderHTML('addJob.twig');
    }
 
 }
