@@ -4,21 +4,23 @@ namespace App\controllers;
 use App\models\{Job,Project};
 
 class JobsController {
-   public function getAddJobAction() {
-      echo "getAddJobAction";
+   public function getAddJobAction($request) {
+      var_dump($request->getMethod());
 
-      if (!empty($_POST)){
-         if ($_POST['job-type'] == 'job'){
-      
+
+      if ($request->getMethod() == 'POST'){
+         $postData = $request->getParsedBody();
+
+         if ($postData['job-type'] == 'job'){      
             $job = new Job();
-            $job->title = $_POST['title'];
-            $job->description = $_POST['description'];
+            $job->title = $postData['title'];
+            $job->description = $postData['description'];
             $job->save();
             echo "<script>alert('Trabajo registrado correctamente')</script>";
-         } else if ($_POST['job-type'] == 'project'){
+         } else if ($postData['job-type'] == 'project'){
             $project = new Project();
-            $project->title = $_POST['title'];
-            $project->description = $_POST['description'];
+            $project->title = $postData['title'];
+            $project->description = $postData['description'];
             $project->save();
             echo "<script>alert('Proyecto registrado correctamente')</script>";
          }

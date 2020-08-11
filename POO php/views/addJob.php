@@ -8,7 +8,7 @@
 </head>
 <body>
    <h1 class="addJob-title">Add Job</h1>
-   <form action="addJob.php" method="post">
+   <form action="/jobs/add" method="post">
       <div class="input-container">
          <label for="">Title</label>
          <input type="text" name="title" id="">
