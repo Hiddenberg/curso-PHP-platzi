@@ -1,15 +1,3 @@
-<?php
-
-use App\models\Job;
-
-include("jobs.php"); /* lo que hace es incluir otro archivo php desde el cual podemos agregar sus variables o usar sus funciones son de contexto global*/
-/* para esto tambien se pude hacer con la funcion require() que lo que hace es que detiene la ejecucion si el programa no existe */
-
-$name = 'Victor Pazaran';
-$limitMonths = 2004;
-$totalMonths = 0;
-?>
-
 <!doctype html>
 <html lang="en">
 
