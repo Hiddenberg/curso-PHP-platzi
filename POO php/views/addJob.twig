@@ -2,6 +2,11 @@
 
 {% block content %}
    <h1 class="addJob-title">Add Job</h1>
+
+   <div class="alert alert-primary" role="alert">
+      {{ responseMessage }}
+   </div>
+
    <form action="/jobs/add" method="post">
       <div class="input-container">
          <label for="">Title</label>

@@ -187,6 +187,24 @@ private static $installed = array (
       ),
       'reference' => '408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
     ),
+    'respect/stringifier' => 
+    array (
+      'pretty_version' => '0.2.0',
+      'version' => '0.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e55af3c8aeaeaa2abb5fa47a58a8e9688cc23b59',
+    ),
+    'respect/validation' => 
+    array (
+      'pretty_version' => '2.0.16',
+      'version' => '2.0.16.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'fc14c6c6695c3f870ad8810a2acddccec015841d',
+    ),
     'symfony/console' => 
     array (
       'pretty_version' => 'v5.1.3',
