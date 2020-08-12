@@ -7,20 +7,30 @@
       {{ responseMessage }}
    </div>
 
-   <form action="/jobs/add" method="post">
+   <form action="/jobs/add" method="post" enctype="multipart/form-data">
       <div class="input-container">
          <label for="">Title</label>
          <input type="text" name="title" id="">
       </div>
       </br>
       <div class="input-container">
-      <label for="">Description</label>
-      <input type="text" name="description" id="">
+         <label for="">Description</label>
+         <input type="text" name="description" id="">
+      </div>
+      </br>
+      <div class="input-container">
+         <label for="">Months</label>
+         <input min="0" max="99" type="number" name="month" id="">
+      </div>
+      </br>
+      <div class="input-container">
+         <label for="">Curriculum </label>
+         <input type="file" name="logo" id="">
       </div>
       </br>
       <div class="input-container selector">
-      <label for="job-type">Job Type</label>
-         <select name="job-type" id="cars">
+         <label for="job-type">Job Type</label>
+         <select name="job-type" id="">
             <option value="job">Job</option>
             <option value="project">Project</option>
          </select>
