@@ -1,0 +1,21 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+   <h1 class="add-title">Login</h1>
+
+   <form action="/user/add" method="post">
+      <section class="form-container">
+         <div class="label-container">
+            <label for="firstName">Email</label> 
+            </br>
+            <label for="lastName">Password</label>
+         </div>
+         <div class="inputs-container">
+            <input type="text" name="firstName" id="firstName">
+         </br>
+            <input type="text" name="lastName" id="lastName">
+         </div>
+      </section>
+      <button type="submit">Save</button>
+   </form>
+{% endblock %}

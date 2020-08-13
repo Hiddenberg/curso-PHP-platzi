@@ -32,18 +32,25 @@
         <ul>
         <!-- DO WHILE -->
         {% for job in jobs %}
-          <li class="work-position">
-            <h5> {{ job.title }} </h5>
-          </li>
-          <p> {{ job.description }} </p>
-          <p> {{ job.getDurationAsString() }} </p>
-          <strong>Achievements:</strong>
-          <ul>
-          <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-          <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-          <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-          </ul>
-          </li>
+          <div class="main-job-container">
+            <div class='job-logo-container'>
+              <img class="job-logo" src="/public/uploads/{{ job.logoFile }}" onerror="this.onerror=null;this.src='/public/uploads/default.png'">
+            </div>
+            <div class='job-description-container'>  
+              <li class="work-position">
+                <h5> {{ job.title }} </h5>
+              </li>
+              <p> {{ job.description }} </p>
+              <p> {{ job.getDurationAsString() }} </p>
+              <strong>Achievements:</strong>
+              <ul>
+              <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
+              <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
+              <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
+              </ul>
+              </li>
+            </div>
+          </div>
         {% endfor %}
         </ul>
       </div>

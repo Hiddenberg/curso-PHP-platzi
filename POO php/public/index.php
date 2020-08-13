@@ -53,6 +53,22 @@ $map->post('saveJobs', '/jobs/add', [
    'controller' => 'App\Controllers\JobsController',
    'action' => 'getAddJobAction'
 ]);
+$map->get('addUser', '/user/add', [
+   'controller' => 'App\Controllers\UsersController',
+   'action' => 'getAddUserAction'
+]);
+$map->post('saveUser', '/user/add', [
+   'controller' => 'App\Controllers\UsersController',
+   'action' => 'getAddUserAction'
+]);
+$map->get('loginUser', '/user/login', [
+   'controller' => 'App\Controllers\UsersController',
+   'action' => 'getLoginUserAction'
+]);
+$map->post('accessGrantedUser', '/user/login', [
+   'controller' => 'App\Controllers\UsersController',
+   'action' => 'getLoginUserAction'
+]);
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);

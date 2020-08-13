@@ -1,13 +1,12 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-   <h1 class="addJob-title">Add Job</h1>
-
-   <div class="alert alert-primary" role="alert">
-      {{ responseMessage }}
-   </div>
+   <h1 class="add-title">Add Job</h1>
 
    <form action="/jobs/add" method="post" enctype="multipart/form-data">
+      <div class="alert alert-primary" role="alert">
+         {{ responseMessage }}
+      </div>
       <div class="input-container">
          <label for="">Title</label>
          <input type="text" name="title" id="">
@@ -23,9 +22,9 @@
          <input min="0" max="99" type="number" name="month" id="">
       </div>
       </br>
-      <div class="input-container">
+      <div class="input-container curriculum">
          <label for="">Curriculum </label>
-         <input type="file" name="logo" id="">
+         <input type="file" name="logo" id="file-uploader">
       </div>
       </br>
       <div class="input-container selector">

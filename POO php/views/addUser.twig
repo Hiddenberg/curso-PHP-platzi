@@ -1,0 +1,42 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+   <h1 class="add-title">Register New User</h1>
+
+   <form action="/user/add" method="post">
+      {% if validationMessages %}
+         {% if validationMessages == 'Registro exitoso' %}
+            <div class="alert alert-success text-center" role="alert">
+               <span>{{ validationMessages }}</span>
+            </div>
+         {% else %}
+            <div class="alert alert-primary" role="alert">
+               {% for message in validationMessages %}
+                  <li>{{ message }}</li>
+               {% endfor %}
+            </div>
+         {% endif %}
+      {% endif %}
+      <section class="form-container">
+         <div class="label-container">
+            <label for="firstName">First Name</label> 
+            </br>
+            <label for="lastName">Last Name</label>
+            </br>
+            <label for="email">Email</label>
+            </br>
+            <label for="password">Password</label>
+         </div>
+         <div class="inputs-container">
+            <input type="text" name="firstName" id="firstName">
+         </br>
+            <input type="text" name="lastName" id="lastName">
+         </br>
+            <input type="email" name="email" id="email">
+         </br>
+            <input type="password" name="password" id="password">
+         </div>
+      </section>
+      <button type="submit">Save</button>
+   </form>
+{% endblock %}
