@@ -63,12 +63,17 @@ $map->post('saveUser', '/user/add', [
 ]);
 $map->get('loginUser', '/user/login', [
    'controller' => 'App\Controllers\UsersController',
-   'action' => 'getLoginUserAction'
+   'action' => 'getLoginForm'
 ]);
-$map->post('accessGrantedUser', '/user/login', [
+$map->post('accessGrantedUser', '/user/auth', [
    'controller' => 'App\Controllers\UsersController',
-   'action' => 'getLoginUserAction'
+   'action' => 'authenticateUser'
 ]);
+$map->get('loginUser', '/admin', [
+   'controller' => 'App\Controllers\AdminController',
+   'action' => 'getIndex'
+]);
+
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
@@ -83,5 +88,11 @@ if (!$route) {
    $controller = new $controllerName;
    $response = $controller->$actionName($request);
 
+   foreach ($response->getHeaders() as $name => $values) {
+      foreach ($values as $value) {
+         header(sprintf('%s: %s', $name, $value));
+      }
+   }
+   http_response_code($response->getStatusCode());
    echo $response->getBody();
 }
