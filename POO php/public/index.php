@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 
 require_once '..\vendor\autoload.php';
 
+session_start();
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
 use App\models\Job;
@@ -42,24 +44,28 @@ $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
 
 $map->get('index', '/', [
-   'controller' => 'App\Controllers\IndexController',
+   'controller' => 'App\Controllers\AdminController',
    'action' => 'indexAction'
 ]);
 $map->get('addJobs', '/jobs/add', [
    'controller' => 'App\Controllers\JobsController',
-   'action' => 'getAddJobAction'
+   'action' => 'getAddJobAction',
+   'auth' => true
 ]);
 $map->post('saveJobs', '/jobs/add', [
    'controller' => 'App\Controllers\JobsController',
-   'action' => 'getAddJobAction'
+   'action' => 'getAddJobAction',
+   'auth' => true
 ]);
 $map->get('addUser', '/user/add', [
    'controller' => 'App\Controllers\UsersController',
-   'action' => 'getAddUserAction'
+   'action' => 'getAddUserAction',
+   'auth' => true
 ]);
 $map->post('saveUser', '/user/add', [
    'controller' => 'App\Controllers\UsersController',
-   'action' => 'getAddUserAction'
+   'action' => 'getAddUserAction',
+   'auth' => true
 ]);
 $map->get('loginUser', '/user/login', [
    'controller' => 'App\Controllers\UsersController',
@@ -69,9 +75,14 @@ $map->post('accessGrantedUser', '/user/auth', [
    'controller' => 'App\Controllers\UsersController',
    'action' => 'authenticateUser'
 ]);
-$map->get('loginUser', '/admin', [
+$map->get('adminPage', '/admin', [
    'controller' => 'App\Controllers\AdminController',
-   'action' => 'getIndex'
+   'action' => 'getIndex',
+   'auth' => true
+]);
+$map->get('logout', '/logout', [
+   'controller' => 'App\Controllers\UsersController',
+   'action' => 'getLogout'
 ]);
 
 
@@ -82,8 +93,17 @@ if (!$route) {
    echo 'No route';
 } else {
    $handlerData = $route->handler;
-   $controllerName = $handlerData['controller'];
-   $actionName = $handlerData ['action'];
+   $needsAuth = $handlerData ['auth'] ?? false;
+
+
+   $sessionUserId = $_SESSION['userId'] ?? null;
+   if ($needsAuth && $sessionUserId == null) {
+      $controllerName = 'App\Controllers\UsersController';
+      $actionName = 'getLoginForm';
+   } else {
+      $controllerName = $handlerData['controller'];
+      $actionName = $handlerData ['action'];
+   }
 
    $controller = new $controllerName;
    $response = $controller->$actionName($request);
@@ -93,6 +113,7 @@ if (!$route) {
          header(sprintf('%s: %s', $name, $value));
       }
    }
+
    http_response_code($response->getStatusCode());
    echo $response->getBody();
 }

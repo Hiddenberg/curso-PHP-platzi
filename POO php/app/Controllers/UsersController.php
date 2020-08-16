@@ -60,7 +60,10 @@ class UsersController extends BaseController {
    }
 
    public function getLoginForm($request) {
-      return $this->renderHTML('userLogin.twig');
+      $currentDir = $_SERVER['REQUEST_URI'];
+      return $this->renderHTML('userLogin.twig',[
+         'currentDir' => $currentDir
+      ]);
    }
 
    public function authenticateUser($request) {
@@ -79,7 +82,12 @@ class UsersController extends BaseController {
                $user = User::where('email', $postLoginData['email'])->first();
                if (\password_verify($postLoginData['password'], $user->password)) {
                   echo 'contraseña correcta';
-                  return new RedirectResponse('/admin');
+                  $_SESSION['userId'] = $user['id'];
+                  if ($postLoginData['previousDir'] == '/user/login') {
+                     return new RedirectResponse('/admin');
+                  } else {
+                     return new RedirectResponse($postLoginData['previousDir']);
+                  }
                } else {
                   $validationMessages = ['Email or password are incorrect'];
                }
@@ -89,11 +97,16 @@ class UsersController extends BaseController {
          } catch (ValidationException $exception) {
             $validationMessages = array_values($exception->getMessages());
          }
-         
 
          return $this->renderHTML('userLogin.twig', [
-            'validationMessages' => $validationMessages
+            'validationMessages' => $validationMessages,
+            'currentDir' => $postLoginData['previousDir']
          ]);
       }
+   }
+
+   public function getLogout() {
+      unset($_SESSION['userId']);
+      return new RedirectResponse('/user/login');
    }
 }
